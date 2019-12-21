@@ -1,3 +1,21 @@
-import requests
-r = requests.get("https://www.whoi.edu/website/redtide/research/publications-reports/national/")
-print(r.text)
+import urllib.request
+import urllib.parse
+import re
+
+url = "https://www.whoi.edu/website/redtide/research/publications-reports/national/"
+values = {'s':'basics',
+          'submit':'seardh'}
+
+data = urllib.parse.urlencode(values)
+data = data.encode('utf-8')
+req = urllib.request.Request(url, data)
+resp = urllib.request.urlopen(req)
+respData = resp.read()
+
+print(respData)
+
+
+paragraphs = re.findall(r'<p>(.*?)</p>',str(respData))
+
+for eachP in paragraphs:
+    print(eachP)
